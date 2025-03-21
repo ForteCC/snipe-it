@@ -1,0 +1,72 @@
+name: Deploy Node Application - Production
+
+on:
+  push:
+    branches:
+      - ForteCC-Production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t filesharingportal/snipeit-fortecc .
+
+      - name: Publish Image to Docker Hub
+        run: docker push filesharingportal/snipeit-fortecc:latest
+
+  deploy:
+    needs: build
+    runs-on: production-ec2  # runner name
+    steps:
+      - name: Create docker directory if not exists
+        run: |
+          mkdir -p ./docker  
+        
+      - name: Set up environment variables for Docker Compose
+        run: |
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> ./docker/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./docker/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./docker/.env
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> ./docker/.env
+          echo "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" >> ./docker/.env
+          echo "BCRYPT_SALT=${{ secrets.BCRYPT_SALT }}" >> ./docker/.env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ./docker/.env
+          echo "AWS_ACCESS_KEY_ID_PUBLIC=${{ secrets.AWS_ACCESS_KEY_ID_PUBLIC }}" >> ./docker/.env
+          echo "AWS_BUCKET=${{ secrets.AWS_BUCKET }}" >> ./docker/.env
+          echo "AWS_BUCKET_PUBLIC=${{ secrets.AWS_BUCKET_PUBLIC }}" >> ./docker/.env
+          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> ./docker/.env
+          echo "AWS_REGION_PUBLIC=${{ secrets.AWS_REGION_PUBLIC }}" >> ./docker/.env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ./docker/.env
+          echo "AWS_SECRET_ACCESS_KEY_PUBLIC=${{ secrets.AWS_SECRET_ACCESS_KEY_PUBLIC }}" >> ./docker/.env
+          echo "DATABASE_URI=${{ secrets.DATABASE_URI }}" >> ./docker/.env
+          echo "EMAIL_HOST=${{ secrets.EMAIL_HOST }}" >> ./docker/.env
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> ./docker/.env
+          echo "EMAIL_PORT=${{ secrets.EMAIL_PORT }}" >> ./docker/.env
+          echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" >> ./docker/.env
+          echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> ./docker/.env
+          echo "CLIENT_URL=${{ secrets.CLIENT_URL }}" >> ./docker/.env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> ./docker/.env
+          echo "PUBLIC_FOLDER_ID=${{ secrets.PUBLIC_FOLDER_ID }}" >> ./docker/.env
+          echo "PUBLIC_FOLDER_NAME=${{ secrets.PUBLIC_FOLDER_NAME }}" >> ./docker/.env
+          echo "PUBLIC_SUBMITTAL_FOLDER_ID=${{ secrets.PUBLIC_SUBMITTAL_FOLDER_ID }}" >> ./docker/.env
+          echo "PUBLIC_SUBMITTAL_FOLDER_NAME=${{ secrets.PUBLIC_SUBMITTAL_FOLDER_NAME }}" >> ./docker/.env
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> ./docker/.env
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> ./docker/.env
+          echo "RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}" >> ./docker/.env
+          echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> ./docker/.env
+          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> ./docker/.env
+
+      - name: Delete old container
+        run: docker rm -f snipeit-fortecc-container || true
+
+      - name: Run Docker Compose
+        run: |
+            cd docker
+            docker-compose -f docker-compose.yml up -d

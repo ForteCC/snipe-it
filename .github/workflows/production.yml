@@ -3,7 +3,7 @@ name: Deploy Node Application - Production
 on:
   push:
     branches:
-      - Fortecc-Production
+      - ubuntulocal
 
 jobs:
   build:

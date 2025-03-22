@@ -100,3 +100,17 @@ username: admin
 password: T!975258641684ax
 
 ![alt text](image.png)
+
+
+---
+on system:
+user: ububntulocal
+pass: Miteshj@2692000
+
+
+---
+login as user:
+su - ubuntulocal
+
+---
+

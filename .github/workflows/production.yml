@@ -3,7 +3,7 @@ name: Deploy Node Application - Production
 on:
   push:
     branches:
-      - ForteCC-Production
+      - Fortecc-Production
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: production-ec2  # runner name
+    runs-on: ubuntulocal  # runner name
     steps:
       - name: Create docker directory if not exists
         run: |

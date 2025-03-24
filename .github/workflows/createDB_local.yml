@@ -13,22 +13,22 @@ jobs:
       - name: Install MySQL (if not installed)
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get update          
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo apt-get install -y mysql-server
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get install -y mysql-server
 
 
       - name: Drop Database if it exists
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           DROP DATABASE IF EXISTS ${{ secrets.DB_DATABASE }};"
       
       - name: Create Database
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE DATABASE ${{ secrets.DB_DATABASE }};"
 
       - name: Create Database User and Grant Privileges
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE USER IF NOT EXISTS '${{ secrets.DB_USERNAME }}'@'%' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
           GRANT ALL PRIVILEGES ON ${{ secrets.DB_DATABASE }}.* TO '${{ secrets.DB_USERNAME }}'@'%';
           FLUSH PRIVILEGES;"

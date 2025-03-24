@@ -181,11 +181,14 @@ jobs:
 
       - name: Delete old container
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipe-it_app_1 || true
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  snipe-it_db_1 || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipeit-fortecc-container || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  mariadb:11.5.2 || true
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker system prune -af
+
+
 
       - name: Run Docker Compose from custom location
         run: |
           cp ~/docker-compose.yml ./docker-compose.yml
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker-compose -f docker-compose.yml up -d  
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker-compose -f docker-compose.yml up -d
+  

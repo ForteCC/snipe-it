@@ -21,8 +21,8 @@ jobs:
       - name: Drop and Recreate Database
         run: |
           mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_ROOT_USER }} -p${{ secrets.DB_ROOT_PASSWORD }} -e "
-          DROP DATABASE IF EXISTS ${{ secrets.DB_NAME }};
-          CREATE DATABASE ${{ secrets.DB_NAME }};
-          CREATE USER IF NOT EXISTS '${{ secrets.DB_NEW_USER }}'@'%' IDENTIFIED BY '${{ secrets.DB_NEW_PASSWORD }}';
-          GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_NEW_USER }}'@'%';
+          DROP DATABASE IF EXISTS ${{ secrets.DB_DATABASE }};
+          CREATE DATABASE ${{ secrets.DB_DATABASE }};
+          CREATE USER IF NOT EXISTS '${{ secrets.DB_USERNAME }}'@'%' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
+          GRANT ALL PRIVILEGES ON ${{ secrets.DB_DATABASE }}.* TO '${{ secrets.DB_USERNAME }}'@'%';
           FLUSH PRIVILEGES;"

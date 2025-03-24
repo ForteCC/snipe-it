@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntulocal  # Use your self-hosted runner
 
     steps:
-      - name: Install MySQL Client (if not installed)
+      - name: Install MySQL (if not installed)
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get update          
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo apt-get install -y mysql-server
@@ -18,7 +18,7 @@ jobs:
 
       - name: Drop Database if it exists
         run: |
-          mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           DROP DATABASE IF EXISTS ${{ secrets.DB_DATABASE }};"
       
       - name: Create Database

@@ -183,6 +183,8 @@ jobs:
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipeit-fortecc-container || true
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  mariadb:11.5.2 || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker system prune -af
+
 
 
       - name: Run Docker Compose from custom location

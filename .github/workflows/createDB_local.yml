@@ -23,12 +23,12 @@ jobs:
       
       - name: Create Database
         run: |
-          mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE DATABASE ${{ secrets.DB_DATABASE }};"
 
-      - name: Drop and Recreate Database
+      - name: Create Database User and Grant Privileges
         run: |
-          mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE USER IF NOT EXISTS '${{ secrets.DB_USERNAME }}'@'%' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
           GRANT ALL PRIVILEGES ON ${{ secrets.DB_DATABASE }}.* TO '${{ secrets.DB_USERNAME }}'@'%';
           FLUSH PRIVILEGES;"

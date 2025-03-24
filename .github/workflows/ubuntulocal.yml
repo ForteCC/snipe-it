@@ -180,7 +180,10 @@ jobs:
 
 
       - name: Delete old container
-        run: echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipeit-fortecc-container || true
+        run: |
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipeit-fortecc-container || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  mariadb:11.5.2 || true
+
 
       - name: Run Docker Compose from custom location
         run: |

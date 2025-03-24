@@ -13,11 +13,8 @@ jobs:
       - name: Install MySQL Client (if not installed)
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get update          
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo apt-get install -y mariadb-server
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo systemctl start mariadb
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo systemctl enable mariadb
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo systemctl status mariadb
-          
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo apt-get install -y mysql-server
+
       - name: Drop and Recreate Database
         run: |
           mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "

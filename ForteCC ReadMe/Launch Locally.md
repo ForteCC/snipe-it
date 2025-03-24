@@ -101,7 +101,6 @@ password: T!975258641684ax
 
 ![alt text](image.png)
 
-
 ---
 
 on system:
@@ -114,12 +113,3 @@ login as user:
 su - ubuntulocal
 
 ---
-
-# working directory is:
-~/actions-runner/_work/snipe-it/snipe-it
-
-now we have .env also here.
-
-
----
-# add the docker-compose to the ~ path of the ubuntu.

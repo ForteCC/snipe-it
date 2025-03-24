@@ -43,6 +43,7 @@ jobs:
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> ./.env
           echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> ./.env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> ./.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
           echo "DB_PREFIX=${{ secrets.DB_PREFIX }}" >> ./.env
           echo "DB_DUMP_PATH=${{ secrets.DB_DUMP_PATH }}" >> ./.env
@@ -178,15 +179,13 @@ jobs:
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S chmod +x /usr/local/bin/docker-compose
           docker-compose --version  # Check the installed version
 
-
       - name: Delete old container
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipeit-fortecc-container || true
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  mariadb:11.5.2 || true
-
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f snipe-it_app_1 || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker rm -f  snipe-it_db_1 || true
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker system prune -af
 
       - name: Run Docker Compose from custom location
         run: |
           cp ~/docker-compose.yml ./docker-compose.yml
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker-compose -f docker-compose.yml up -d
-  
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker-compose -f docker-compose.yml up -d  

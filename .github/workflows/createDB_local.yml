@@ -14,11 +14,6 @@ jobs:
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get update          
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get install -y mysql-server
-
-      - name: Set root password for MySQL
-        run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -e "ALTER USER 'root'@'${{secrets.DB_HOST}}' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -e "FLUSH PRIVILEGES;"
   
       - name: Drop Database if it exists
         run: |
@@ -29,7 +24,13 @@ jobs:
         run: |
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE DATABASE ${{ secrets.DB_DATABASE }};"
-
+    
+      - name: Set root password for MySQL
+        run: |
+            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+            ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
+            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "FLUSH PRIVILEGES;"
+  
       - name: Create Database User and Grant Privileges
         run: | # SUDO_PASSWORD_Local is the password for the local machine sudo command.
           echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "

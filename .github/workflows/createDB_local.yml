@@ -1,0 +1,28 @@
+name: Database Setup on Self-hosted Runner - Local
+
+on:
+  push:
+    branches:
+      - create-db  # Run only when pushing to main
+
+jobs:
+  setup-database:
+    runs-on: self-hosted  # Use your self-hosted runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install MySQL Client (if not installed)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+      - name: Drop and Recreate Database
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_ROOT_USER }} -p${{ secrets.DB_ROOT_PASSWORD }} -e "
+          DROP DATABASE IF EXISTS ${{ secrets.DB_NAME }};
+          CREATE DATABASE ${{ secrets.DB_NAME }};
+          CREATE USER IF NOT EXISTS '${{ secrets.DB_NEW_USER }}'@'%' IDENTIFIED BY '${{ secrets.DB_NEW_PASSWORD }}';
+          GRANT ALL PRIVILEGES ON ${{ secrets.DB_NAME }}.* TO '${{ secrets.DB_NEW_USER }}'@'%';
+          FLUSH PRIVILEGES;"

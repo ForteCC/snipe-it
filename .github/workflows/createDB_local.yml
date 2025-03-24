@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Install MySQL Client (if not installed)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S apt-get update          
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo apt-get install -y mysql-client
 
       - name: Drop and Recreate Database
         run: |

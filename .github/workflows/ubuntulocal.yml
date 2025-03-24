@@ -23,7 +23,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntulocal  # runner name
+    runs-on: ubuntulocal
     steps:
       - name: Create docker directory if not exists
         run: |

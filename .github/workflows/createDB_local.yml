@@ -28,7 +28,7 @@ jobs:
       - name: Set root password for MySQL
         run: |
             echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
-            ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
+            ALTER USER 'root'@'${{ secrets.DB_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
             echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "FLUSH PRIVILEGES;"
   
       - name: Create Database User and Grant Privileges

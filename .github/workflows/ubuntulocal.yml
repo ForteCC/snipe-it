@@ -185,5 +185,5 @@ jobs:
       - name: Run Docker Compose from custom location
         run: |
           cp ~/docker-compose.yml ./docker-compose.yml
-          docker-compose -f docker-compose.yml up -d
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S docker-compose -f docker-compose.yml up -d
   

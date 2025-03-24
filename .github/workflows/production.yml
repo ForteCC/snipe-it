@@ -23,7 +23,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: production-ec2  # runner name
+    runs-on: production-ec2
     steps:
       - name: Create docker directory if not exists
         run: |

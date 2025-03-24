@@ -25,48 +25,154 @@ jobs:
     needs: build
     runs-on: ubuntulocal
     steps:
-      - name: Create docker directory if not exists
-        run: |
-          mkdir -p ./docker  
-        
       - name: Set up environment variables for Docker Compose
         run: |
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> ./docker/.env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./docker/.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./docker/.env
-          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> ./docker/.env
-          echo "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" >> ./docker/.env
-          echo "BCRYPT_SALT=${{ secrets.BCRYPT_SALT }}" >> ./docker/.env
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ./docker/.env
-          echo "AWS_ACCESS_KEY_ID_PUBLIC=${{ secrets.AWS_ACCESS_KEY_ID_PUBLIC }}" >> ./docker/.env
-          echo "AWS_BUCKET=${{ secrets.AWS_BUCKET }}" >> ./docker/.env
-          echo "AWS_BUCKET_PUBLIC=${{ secrets.AWS_BUCKET_PUBLIC }}" >> ./docker/.env
-          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> ./docker/.env
-          echo "AWS_REGION_PUBLIC=${{ secrets.AWS_REGION_PUBLIC }}" >> ./docker/.env
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ./docker/.env
-          echo "AWS_SECRET_ACCESS_KEY_PUBLIC=${{ secrets.AWS_SECRET_ACCESS_KEY_PUBLIC }}" >> ./docker/.env
-          echo "DATABASE_URI=${{ secrets.DATABASE_URI }}" >> ./docker/.env
-          echo "EMAIL_HOST=${{ secrets.EMAIL_HOST }}" >> ./docker/.env
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> ./docker/.env
-          echo "EMAIL_PORT=${{ secrets.EMAIL_PORT }}" >> ./docker/.env
-          echo "EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}" >> ./docker/.env
-          echo "FROM_EMAIL=${{ secrets.FROM_EMAIL }}" >> ./docker/.env
-          echo "CLIENT_URL=${{ secrets.CLIENT_URL }}" >> ./docker/.env
-          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> ./docker/.env
-          echo "PUBLIC_FOLDER_ID=${{ secrets.PUBLIC_FOLDER_ID }}" >> ./docker/.env
-          echo "PUBLIC_FOLDER_NAME=${{ secrets.PUBLIC_FOLDER_NAME }}" >> ./docker/.env
-          echo "PUBLIC_SUBMITTAL_FOLDER_ID=${{ secrets.PUBLIC_SUBMITTAL_FOLDER_ID }}" >> ./docker/.env
-          echo "PUBLIC_SUBMITTAL_FOLDER_NAME=${{ secrets.PUBLIC_SUBMITTAL_FOLDER_NAME }}" >> ./docker/.env
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> ./docker/.env
-          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> ./docker/.env
-          echo "RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}" >> ./docker/.env
-          echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> ./docker/.env
-          echo "SERVER_URL=${{ secrets.SERVER_URL }}" >> ./docker/.env
+          echo "APP_ENV=${{ secrets.APP_ENV }}" >> ./.env
+          echo "APP_DEBUG=${{ secrets.APP_DEBUG }}" >> ./.env
+          echo "APP_KEY=${{ secrets.APP_KEY }}" >> ./.env
+          echo "APP_URL=${{ secrets.APP_URL }}" >> ./.env
+          echo "APP_TIMEZONE=${{ secrets.APP_TIMEZONE }}" >> ./.env
+          echo "APP_LOCALE=${{ secrets.APP_LOCALE }}" >> ./.env
+          echo "MAX_RESULTS=${{ secrets.MAX_RESULTS }}" >> ./.env
+
+          echo "PRIVATE_FILESYSTEM_DISK=${{ secrets.PRIVATE_FILESYSTEM_DISK }}" >> ./.env
+          echo "PUBLIC_FILESYSTEM_DISK=${{ secrets.PUBLIC_FILESYSTEM_DISK }}" >> ./.env
+
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> ./.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> ./.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> ./.env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> ./.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
+          echo "DB_PREFIX=${{ secrets.DB_PREFIX }}" >> ./.env
+          echo "DB_DUMP_PATH=${{ secrets.DB_DUMP_PATH }}" >> ./.env
+          echo "DB_CHARSET=${{ secrets.DB_CHARSET }}" >> ./.env
+          echo "DB_COLLATION=${{ secrets.DB_COLLATION }}" >> ./.env
+          echo "DB_SANITIZE_BY_DEFAULT=${{ secrets.DB_SANITIZE_BY_DEFAULT }}" >> ./.env
+
+          echo "DB_SSL=${{ secrets.DB_SSL }}" >> ./.env
+          echo "DB_SSL_IS_PAAS=${{ secrets.DB_SSL_IS_PAAS }}" >> ./.env
+          echo "DB_SSL_KEY_PATH=${{ secrets.DB_SSL_KEY_PATH }}" >> ./.env
+          echo "DB_SSL_CERT_PATH=${{ secrets.DB_SSL_CERT_PATH }}" >> ./.env
+          echo "DB_SSL_CA_PATH=${{ secrets.DB_SSL_CA_PATH }}" >> ./.env
+          echo "DB_SSL_CIPHER=${{ secrets.DB_SSL_CIPHER }}" >> ./.env
+          echo "DB_SSL_VERIFY_SERVER=${{ secrets.DB_SSL_VERIFY_SERVER }}" >> ./.env
+
+          echo "MAIL_MAILER=${{ secrets.MAIL_MAILER }}" >> ./.env
+          echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> ./.env
+          echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> ./.env
+          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> ./.env
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> ./.env
+          echo "MAIL_FROM_ADDR=${{ secrets.MAIL_FROM_ADDR }}" >> ./.env
+          echo "MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}" >> ./.env
+          echo "MAIL_REPLYTO_ADDR=${{ secrets.MAIL_REPLYTO_ADDR }}" >> ./.env
+          echo "MAIL_REPLYTO_NAME=${{ secrets.MAIL_REPLYTO_NAME }}" >> ./.env
+          echo "MAIL_AUTO_EMBED_METHOD=${{ secrets.MAIL_AUTO_EMBED_METHOD }}" >> ./.env
+          echo "MAIL_TLS_VERIFY_PEER=${{ secrets.MAIL_TLS_VERIFY_PEER }}" >> ./.env
+
+          echo "IMAGE_LIB=${{ secrets.IMAGE_LIB }}" >> ./.env
+
+          echo "MAIL_BACKUP_NOTIFICATION_DRIVER=${{ secrets.MAIL_BACKUP_NOTIFICATION_DRIVER }}" >> ./.env
+          echo "MAIL_BACKUP_NOTIFICATION_ADDRESS=${{ secrets.MAIL_BACKUP_NOTIFICATION_ADDRESS }}" >> ./.env
+          echo "BACKUP_ENV=${{ secrets.BACKUP_ENV }}" >> ./.env
+          echo "ALLOW_BACKUP_DELETE=${{ secrets.ALLOW_BACKUP_DELETE }}" >> ./.env
+          echo "ALLOW_DATA_PURGE=${{ secrets.ALLOW_DATA_PURGE }}" >> ./.env
+          echo "ALL_BACKUP_KEEP_DAYS=${{ secrets.ALL_BACKUP_KEEP_DAYS }}" >> ./.env
+          echo "DAILY_BACKUP_KEEP_DAYS=${{ secrets.DAILY_BACKUP_KEEP_DAYS }}" >> ./.env
+          echo "WEEKLY_BACKUP_KEEP_WEEKS=${{ secrets.WEEKLY_BACKUP_KEEP_WEEKS }}" >> ./.env
+          echo "MONTHLY_BACKUP_KEEP_MONTHS=${{ secrets.MONTHLY_BACKUP_KEEP_MONTHS }}" >> ./.env
+          echo "YEARLY_BACKUP_KEEP_YEARS=${{ secrets.YEARLY_BACKUP_KEEP_YEARS }}" >> ./.env
+          echo "BACKUP_PURGE_OLDEST_AT_MEGS=${{ secrets.BACKUP_PURGE_OLDEST_AT_MEGS }}" >> ./.env
+
+          echo "SESSION_DRIVER=${{ secrets.SESSION_DRIVER }}" >> ./.env
+          echo "SESSION_LIFETIME=${{ secrets.SESSION_LIFETIME }}" >> ./.env
+          echo "EXPIRE_ON_CLOSE=${{ secrets.EXPIRE_ON_CLOSE }}" >> ./.env
+          echo "ENCRYPT=${{ secrets.ENCRYPT }}" >> ./.env
+          echo "COOKIE_NAME=${{ secrets.COOKIE_NAME }}" >> ./.env
+          echo "PASSPORT_COOKIE_NAME=${{ secrets.PASSPORT_COOKIE_NAME }}" >> ./.env
+          echo "COOKIE_DOMAIN=${{ secrets.COOKIE_DOMAIN }}" >> ./.env
+          echo "SECURE_COOKIES=${{ secrets.SECURE_COOKIES }}" >> ./.env
+          echo "API_TOKEN_EXPIRATION_YEARS=${{ secrets.API_TOKEN_EXPIRATION_YEARS }}" >> ./.env
+          echo "BS_TABLE_STORAGE=${{ secrets.BS_TABLE_STORAGE }}" >> ./.env
+          echo "BS_TABLE_DEEPLINK=${{ secrets.BS_TABLE_DEEPLINK }}" >> ./.env
+
+          echo "APP_TRUSTED_PROXIES=${{ secrets.APP_TRUSTED_PROXIES }}" >> ./.env
+          echo "ALLOW_IFRAMING=${{ secrets.ALLOW_IFRAMING }}" >> ./.env
+          echo "REFERRER_POLICY=${{ secrets.REFERRER_POLICY }}" >> ./.env
+          echo "ENABLE_CSP=${{ secrets.ENABLE_CSP }}" >> ./.env
+          echo "ADDITIONAL_CSP_URLS=${{ secrets.ADDITIONAL_CSP_URLS }}" >> ./.env
+          echo "CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}" >> ./.env
+          echo "ENABLE_HSTS=${{ secrets.ENABLE_HSTS }}" >> ./.env
+
+          echo "CACHE_DRIVER=${{ secrets.CACHE_DRIVER }}" >> ./.env
+          echo "QUEUE_DRIVER=${{ secrets.QUEUE_DRIVER }}" >> ./.env
+          echo "CACHE_PREFIX=${{ secrets.CACHE_PREFIX }}" >> ./.env
+
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> ./.env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> ./.env
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> ./.env
+
+          echo "MEMCACHED_HOST=${{ secrets.MEMCACHED_HOST }}" >> ./.env
+          echo "MEMCACHED_PORT=${{ secrets.MEMCACHED_PORT }}" >> ./.env
+
+          echo "PUBLIC_AWS_SECRET_ACCESS_KEY=${{ secrets.PUBLIC_AWS_SECRET_ACCESS_KEY }}" >> ./.env
+          echo "PUBLIC_AWS_ACCESS_KEY_ID=${{ secrets.PUBLIC_AWS_ACCESS_KEY_ID }}" >> ./.env
+          echo "PUBLIC_AWS_DEFAULT_REGION=${{ secrets.PUBLIC_AWS_DEFAULT_REGION }}" >> ./.env
+          echo "PUBLIC_AWS_BUCKET=${{ secrets.PUBLIC_AWS_BUCKET }}" >> ./.env
+          echo "PUBLIC_AWS_URL=${{ secrets.PUBLIC_AWS_URL }}" >> ./.env
+          echo "PUBLIC_AWS_BUCKET_ROOT=${{ secrets.PUBLIC_AWS_BUCKET_ROOT }}" >> ./.env
+
+          echo "PRIVATE_AWS_ACCESS_KEY_ID=${{ secrets.PRIVATE_AWS_ACCESS_KEY_ID }}" >> ./.env
+          echo "PRIVATE_AWS_SECRET_ACCESS_KEY=${{ secrets.PRIVATE_AWS_SECRET_ACCESS_KEY }}" >> ./.env
+          echo "PRIVATE_AWS_DEFAULT_REGION=${{ secrets.PRIVATE_AWS_DEFAULT_REGION }}" >> ./.env
+          echo "PRIVATE_AWS_BUCKET=${{ secrets.PRIVATE_AWS_BUCKET }}" >> ./.env
+          echo "PRIVATE_AWS_URL=${{ secrets.PRIVATE_AWS_URL }}" >> ./.env
+          echo "PRIVATE_AWS_BUCKET_ROOT=${{ secrets.PRIVATE_AWS_BUCKET_ROOT }}" >> ./.env
+
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ./.env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ./.env
+          echo "AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }}" >> ./.env
+
+                    echo "LOGIN_MAX_ATTEMPTS=${{ secrets.LOGIN_MAX_ATTEMPTS }}" >> ./.env
+          echo "LOGIN_LOCKOUT_DURATION=${{ secrets.LOGIN_LOCKOUT_DURATION }}" >> ./.env
+          echo "LOGIN_AUTOCOMPLETE=${{ secrets.LOGIN_AUTOCOMPLETE }}" >> ./.env
+
+          echo "RESET_PASSWORD_LINK_EXPIRES=${{ secrets.RESET_PASSWORD_LINK_EXPIRES }}" >> ./.env
+          echo "PASSWORD_CONFIRM_TIMEOUT=${{ secrets.PASSWORD_CONFIRM_TIMEOUT }}" >> ./.env
+          echo "PASSWORD_RESET_MAX_ATTEMPTS_PER_MIN=${{ secrets.PASSWORD_RESET_MAX_ATTEMPTS_PER_MIN }}" >> ./.env
+
+          echo "LOG_CHANNEL=${{ secrets.LOG_CHANNEL }}" >> ./.env
+          echo "LOG_MAX_DAYS=${{ secrets.LOG_MAX_DAYS }}" >> ./.env
+          echo "APP_LOCKED=${{ secrets.APP_LOCKED }}" >> ./.env
+          echo "APP_CIPHER=${{ secrets.APP_CIPHER }}" >> ./.env
+          echo "APP_FORCE_TLS=${{ secrets.APP_FORCE_TLS }}" >> ./.env
+          echo "APP_ALLOW_INSECURE_HOSTS=${{ secrets.APP_ALLOW_INSECURE_HOSTS }}" >> ./.env
+          echo "GOOGLE_MAPS_API=${{ secrets.GOOGLE_MAPS_API }}" >> ./.env
+          echo "LDAP_MEM_LIM=${{ secrets.LDAP_MEM_LIM }}" >> ./.env
+          echo "LDAP_TIME_LIM=${{ secrets.LDAP_TIME_LIM }}" >> ./.env
+          echo "IMPORT_TIME_LIMIT=${{ secrets.IMPORT_TIME_LIMIT }}" >> ./.env
+          echo "IMPORT_MEMORY_LIMIT=${{ secrets.IMPORT_MEMORY_LIMIT }}" >> ./.env
+          echo "REPORT_TIME_LIMIT=${{ secrets.REPORT_TIME_LIMIT }}" >> ./.env
+          echo "REQUIRE_SAML=${{ secrets.REQUIRE_SAML }}" >> ./.env
+          echo "API_THROTTLE_PER_MINUTE=${{ secrets.API_THROTTLE_PER_MINUTE }}" >> ./.env
+          echo "CSV_ESCAPE_FORMULAS=${{ secrets.CSV_ESCAPE_FORMULAS }}" >> ./.env
+          echo "LIVEWIRE_URL_PREFIX=${{ secrets.LIVEWIRE_URL_PREFIX }}" >> ./.env
+
+          echo "HASHING_DRIVER=${{ secrets.HASHING_DRIVER }}" >> ./.env
+          echo "BCRYPT_ROUNDS=${{ secrets.BCRYPT_ROUNDS }}" >> ./.env
+          echo "ARGON_MEMORY=${{ secrets.ARGON_MEMORY }}" >> ./.env
+          echo "ARGON_THREADS=${{ secrets.ARGON_THREADS }}" >> ./.env
+          echo "ARGON_TIME=${{ secrets.ARGON_TIME }}" >> ./.env
+
+          echo "SCIM_TRACE=${{ secrets.SCIM_TRACE }}" >> ./.env
+          echo "SCIM_STANDARDS_COMPLIANCE=${{ secrets.SCIM_STANDARDS_COMPLIANCE }}" >> ./.env
+
+
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> ./.env
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> ./.env
 
       - name: Delete old container
         run: docker rm -f snipeit-fortecc-container || true
 
       - name: Run Docker Compose
-        run: |
-            cd docker
-            docker-compose -f docker-compose.yml up -d
+        run: docker-compose -f docker-compose.yml up -d

@@ -184,6 +184,4 @@ jobs:
 
       - name: Run Docker Compose from custom location
         run: |
-          cd ~/docker
-          docker-compose -f docker-compose.yml up -d
-  
+          cp ~/docker-compose.yml ./ && docker-compose -f docker-compose.yml up -d  

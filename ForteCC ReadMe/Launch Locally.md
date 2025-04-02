@@ -51,6 +51,24 @@ memory_limit = 256M
 
 # Creating a Database and User
 
+
+Step 4: Create the Snipe-IT user
+MySQL
+
+create user snipe_user;
+
+
+this will create user at host %
+
+
+
+
+
+
+
+
+
+
 [Link](https://snipe-it.readme.io/edit/creating-a-database-and-user)
 
 - Step 3:  Corrected Steps:
@@ -113,3 +131,11 @@ login as user:
 su - ubuntulocal
 
 ---
+
+make sure the DB_Host == the service name of mariadb in docker compose else it gives error.
+
+
+---
+# Reload the container after change in env
+docker-compose down
+docker-compose up -d

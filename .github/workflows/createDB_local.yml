@@ -20,23 +20,23 @@ jobs:
 
       - name: Drop and Recreate Database
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_LOCAL_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           DROP DATABASE IF EXISTS ${{ secrets.DB_DATABASE }};"
       
       - name: Create Database
         run: |
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_LOCAL_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE DATABASE ${{ secrets.DB_DATABASE }};"
     
       - name: Set root password for MySQL
         run: |
-            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
-            ALTER USER 'root'@'${{ secrets.DB_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
-            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "FLUSH PRIVILEGES;"
+            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_LOCAL_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+            ALTER USER 'root'@'${{ secrets.DB_LOCAL_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ secrets.MYSQL_ROOT_PASSWORD }}';"
+            echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_LOCAL_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "FLUSH PRIVILEGES;"
   
       - name: Create Database User and Grant Privileges
         run: | # SUDO_PASSWORD_Local is the password for the local machine sudo command.
-          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
+          echo "${{ secrets.SUDO_PASSWORD_Local }}" | sudo -S mysql -h ${{ secrets.DB_LOCAL_HOST }} -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "
           CREATE USER IF NOT EXISTS '${{ secrets.DB_USERNAME }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
           GRANT ALL PRIVILEGES ON ${{ secrets.DB_DATABASE }}.* TO '${{ secrets.DB_USERNAME }}'@'localhost';
           FLUSH PRIVILEGES;"
